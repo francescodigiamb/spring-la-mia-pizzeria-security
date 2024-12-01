@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <div th:replace="~{fragments :: head}"></div>
+    <title>Creation pizza </title>
+</head>
+
+<body>
+
+    <div class="d-flex align-items-start flex-column mb-3" style="height: 85vh;">
+        <div class="container mb-auto">
+            <br>
+            <div th:replace="~{fragments :: navbar}"></div>
+            <br>
+            <h1>New Pizza</h1>
+            <hr />
+            <form id="formPizza" th:object="${pizza}" th:action="@{/pizzeria/create}" method="post">
+                <!-- Blocco nome -->
+                <div class="mb-3 col-4">
+                    <label for="NamePizza" class="form-label">Name pizza</label>
+                    <input type="text" class="form-control" id="NamePizza" placeholder="Name" th:field="*{name}"
+                        th:errorClass="is-invalid">
+                    <div th:if="${#fields.hasErrors('name')}" class="invalid-feedback">
+                        <ul>
+                            <li th:each="err : ${#fields.errors('name')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Blocco prezzo -->
+                <div class="mb-3 col-2">
+                    <label for="PizzaPrice" class="form-label">Price</label>
+                    <input type="number" class="form-control" id="PizzaPrice" placeholder="€" th:field="*{price}"
+                        th:errorClass="is-invalid">
+                    <div th:if="${#fields.hasErrors('price')}" class="invalid-feedback">
+                        <ul>
+                            <li th:each="err : ${#fields.errors('price')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Blocco url foto -->
+                <div class="mb-3 col-6">
+                    <label for="UrlPizza" class="form-label">Photo</label>
+                    <input type="text" class="form-control" id="UrlPizza" th:field="*{photo}">
+                </div>
+                <!-- Blocco descrizione -->
+                <div class="mb-3 col-6">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" rows="3" th:field="*{description}"
+                        th:errorClass="is-invalid" placeholder="Description"></textarea>
+                    <div th:if="${#fields.hasErrors('description')}" class="invalid-feedback">
+                        <ul>
+                            <li th:each="err : ${#fields.errors('description')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <h5>Ingredients</h5>
+                    <div class="form-check" th:each="ingre : ${allIngredients}">
+
+                        <input type="checkbox" class="form-check-input" th:id="|name_${ingre.id}|"
+                            th:value="${ingre.id}" th:field="*{ingredient}">
+                        <label th:for="|name_${ingre.id}|" class="form-check-label" th:text="${ingre.name}"></label>
+                    </div>
+                </div>
+                <!-- Pulsanti -->
+                <div class="mb-3 col-3">
+                    <button type="submit" class="btn btn-primary">Add pizza</button>
+                    <a type="submit" class="btn btn-danger" th:href="@{/pizzeria}">Cancel</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <div th:replace="~{fragments :: script}"></div>
+</body>
+
+</html>

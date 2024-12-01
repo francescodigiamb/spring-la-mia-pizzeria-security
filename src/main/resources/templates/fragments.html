@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<div th:fragment="head">
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- Bootstrap CSS -->
+		<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.1/css/bootstrap.min.css}" />
+		<link th:rel="stylesheet" th:href="@{/webjars/font-awesome/6.5.2/css/all.css}" />
+	</div>
+</head>
+
+<body>
+	<!-- Navbar fragment -->
+	<nav th:fragment="navbar" class="navbar navbar-expand-lg" style="background-color: #ebebeb;">
+		<div class=" container-fluid d-flex">
+			<div>
+				<a class="navbar-brand btn btn-light" th:href="@{/pizzeria}">Home</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+					aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+			</div>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav">
+					<li class="nav-item">
+						<a class="btn btn-warning" th:href="@{/ingredient}">
+							Ingredients</a>
+					</li>
+					<li class="nav-item">
+						<a class="btn btn-success" th:href="@{/pizzeria/create}"><i class="fas fa-plus"></i>
+							New
+							pizza</a>
+					</li>
+				</ul>
+				<form th:action="@{/pizzeria}" method="get" class="ms-auto ">
+					<div class="input-group">
+						<input name="keyword" type="search" th:value="${keyword}" class="form-control"
+							placeholder="Search" aria-label="Search">
+						<button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</nav>
+
+	<!-- script Bootstra fragment -->
+	<div th:fragment="script">
+		<!-- Bootstrap Bundle with Popper -->
+		<script th:src="@{/webjars/bootstrap/5.3.1/js/bootstrap.bundle.min.js}"></script>
+	</div>
+</body>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <div th:replace="~{fragments :: head}"></div>
+    <title th:text="${pizzas.name}"> </title>
+</head>
+
+<body>
+    <div class="d-flex align-items-start flex-column mb-3" style="height: 85vh;" th:object="${pizzas}">
+        <div class="container mb-auto">
+            <br>
+            <div th:replace="~{fragments :: navbar}"></div>
+            <br>
+            <h1 th:text="*{name}"></h1>
+            <hr />
+            <div class="row">
+                <div class="col-8">
+                    <dl>
+                        <dt>Photo</dt>
+                        <dd><img th:src="@{*{photo}}" th:alt="*{name}" width="100px" height="100px"></dd>
+                        <dt>Description</dt>
+                        <dd th:text="*{description}"></dd>
+                        <dt>Price</dt>
+                        <dd th:text="|*{#numbers.formatDecimal(price, 0, 2, 'COMMA')} €|"></dd>
+                    </dl>
+                </div>
+                <div class="col-4">
+                    <h4>Ingredient</h4>
+                    <ul>
+                        <li th:each="ingre : *{ingredients}" th:text="${ingre.name}"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container" th:if="*{!offers.isEmpty()}">
+            <table class="content table table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            Title
+                        </th>
+                        <th>
+                            Start Offer
+                        </th>
+                        <th>
+                            End Offer
+                        </th>
+                        <th>Delete
+
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="specialoffer : ${pizzas.offers}">
+                        <td th:text="${specialoffer.title}">
+                        </td>
+                        <td th:text="${specialoffer.startDate}">
+                        </td>
+                        <td th:text="${specialoffer.endDate}">
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="container py-3" th:if="*{offers.isEmpty()}">
+            <span> This pizza haven't a special offer</span>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2">
+                    <a class="btn btn-primary" th:href="@{/pizzeria}" role="button">Back</a>
+                </div>
+                <div class="col-md-2">
+                    <a class="btn btn-primary" th:href="@{|/pizzeria/edit/*{id}|}">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                </div>
+                <div class="col-md-2">
+                    <form action="#" th:action="@{|/pizzeria/delete/*{id}|}" method="post">
+                        <button class="btn btn-danger" type="submit" id="delete-button"
+                            onclick="return confirm('Are you sure?')">
+                            <i class="fas fa-trash-alt"></i> Delete
+                        </button>
+                    </form>
+                </div>
+                <div class="col-md-2">
+                    <a th:href="@{/pizzeria/{id}/specialoffer (id=${pizzas.id})}" class="btn btn-primary">
+                        New Special Offer
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div th:replace="~{fragments :: script}"></div>
+</body>
+
+</html>

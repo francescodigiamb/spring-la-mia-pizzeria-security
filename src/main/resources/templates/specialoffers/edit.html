@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <div th:replace="~{fragments :: head}"></div>
+    <title>Special offer </title>
+</head>
+
+<body>
+
+    <div class="d-flex align-items-start flex-column mb-3" style="height: 85vh;">
+        <div class="container mb-auto">
+            <br>
+            <div th:replace="~{fragments :: navbar}"></div>
+            <br>
+            <h1>Edit Pizza</h1>
+            <hr />
+            <form id="formOffer" th:object="${specialoffer}" th:action="@{/specialoffer/create}" method="post">
+
+                <input type="hidden" th:field="*{pizza}" id="pizza">
+                <div class="mb-3 col-4">
+                    <label for="startDate" class="form-label">Start Offer</label>
+                    <input type="date" class="form-control" id="startDate" placeholder="Start Offer"
+                        th:field="*{startDate}" th:errorClass="is-invalid">
+                    <div th:if="${#fields.hasErrors('startDate')}" class="invalid-feedback">
+                        <ul>
+                            <li th:each="err : ${#fields.errors('startDate')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mb-3 col-4">
+                    <label for="endDate" class="form-label">End Offer</label>
+                    <input type="date" class="form-control" id="endDate" placeholder="End Offer" th:field="*{endDate}"
+                        th:errorClass="is-invalid">
+                    <div th:if="${#fields.hasErrors('endDate')}" class="invalid-feedback">
+                        <ul>
+                            <li th:each="err : ${#fields.errors('endDate')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mb-3 col-4">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="title" placeholder="title" th:field="*{title}"
+                        th:errorClass="is-invalid">
+                    <div th:if="${#fields.hasErrors('title')}" class="invalid-feedback">
+                        <ul>
+                            <li th:each="err : ${#fields.errors('title')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <button class="btn btn-primary" type="submit"><i class="fas fa-check"></i>Save</button>
+                    <a class="btn btn-danger" th:href="@{|/pizzeria/show/${specialoffer.pizza.id}|}">
+                        <i class="fas fa-times"></i></a>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+    <div th:replace="~{fragments :: script}"></div>
+</body>
+
+</html>

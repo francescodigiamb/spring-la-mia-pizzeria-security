@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<div th:replace="~{fragments :: head}"></div>
+</head>
+
+<body>
+	<div class="container">
+		<br>
+		<h1 class="text-center">Welcome to my pizzeria</h1>
+
+		<div th:replace="~{fragments :: navbar}"></div>
+		<br>
+		<h3 class="text-center">Menu</h3>
+		<br>
+		<div th:if="${!pizzas.isEmpty()}">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>
+							Name
+						</th>
+						<th>
+							Photo
+						</th>
+						<th>
+							Description
+						</th>
+						<th>
+							Price
+						</th>
+						<th>
+						</th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="pizza : ${pizzas}">
+						<td th:text="${pizza.name}"></td>
+						<td><img th:src="@{${pizza.photo}}" width="60px" height="60px"></td>
+						<td th:text="${pizza.description}"></td>
+						<td th:text="|${#numbers.formatDecimal(pizza.price, 0, 2, 'COMMA')} €|"></td>
+						<td>
+							<a class="btn btn-primary" th:href="@{|/pizzeria/show/${pizza.id}|}">
+								<i class="fas fa-pizza-slice"></i>
+							</a>
+						</td>
+						<td>
+							<a class="btn btn-primary" th:href="@{|/pizzeria/edit/${pizza.id}|}">
+								<i class="fas fa-edit"></i>
+							</a>
+						</td>
+						<td>
+							<form action="#" th:action="@{|/pizzeria/delete/${pizza.id}|}" method="post">
+								<button class="btn btn-danger" type="submit" id="delete-button"
+									onclick="return confirm('Are you sure?')">
+									<i class="fas fa-trash-alt"></i>
+								</button>
+							</form>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div th:if="${pizzas.isEmpty()}" class="alert alert-warning" role="alert">
+			The pizza isn't present!
+		</div>
+
+
+	</div>
+	<div th:replace="~{fragments :: script}"></div>
+</body>
+
+</html>

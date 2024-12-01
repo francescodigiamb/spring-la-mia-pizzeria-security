@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:replace="~{fragments :: head}"></div>
+</head>
+
+<body>
+    <div th:replace="~{fragments :: navbar}"></div>
+    <div class="container">
+        <h1>Ingredients</h1>
+        <hr>
+        <div class="row">
+            <div class="col-4">
+                <form th:action="@{/ingredient/create}" method="post" th:object="${ingre}" id="ingredient-form">
+                    <div class="input-group mb-3">
+                        <input type="text" id="ingredient" th:field="*{name}" class="form-control"
+                            th:errorClass="is-invalid">
+                        <button class="btn btn-primary" type="submit">Add</button>
+                    </div>
+                    <div th:if="${#fields.hasErrors('name')}" class="invalid-feedback">
+                        <ul>
+                            <li th:each="err : ${#fields.errors('name')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+                </form>
+
+                <table class="content table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Ingredient</th>
+                            <th>N°pizza</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="ingredient : ${ingredients}" th:if="${!ingredients.isEmpty()}">
+                            <td th:text="${ingredient.name}">
+                            </td>
+                            <td th:text="${ingredient.pizzas.size()}">
+                            </td>
+                            <td>
+                                <form th:action="@{|/ingredients/delete/${ingredient.id}|}" method="post" id="delete">
+                                    <button class="btn btn-danger" type="submit" id="submitButton"
+                                        onclick="return confirm('Are you sure?')">
+                                        <i class="fa fa-trash-alt"></i>
+                                    </button>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div th:if="${ingredients.isEmpty()}">
+                    There are no ingredients!
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="~{fragments :: script}"></div>
+</body>
+
+</html>
