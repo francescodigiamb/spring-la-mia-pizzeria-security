@@ -2,6 +2,7 @@ package it.lessons.pizzeria.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -13,29 +14,36 @@ public class SecurityConfiguration {
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(
-                (authorizeHttpRequests) -> authorizeHttpRequests.requestMatchers("/user").hasAuthority("USER")
-                        .requestMatchers("/admin").hasAuthority("ADMIN")
-                        .requestMatchers("/").permitAll())
-                .formLogin((formLogin) -> formLogin
-                        .usernameParameter("username")
-                        .passwordParameter("password")
-                        .loginPage("/authentication/login")
-                        .failureUrl("/authentication/login?failed")
-                        .loginProcessingUrl("/authentication/login/process"))
-                .logout((logout) -> logout
-                        .logoutUrl("/authentication/logout")
-                        .logoutSuccessUrl("/") // URL di reindirizzamento dopo il logout
-                        .invalidateHttpSession(true) // Invalida la sessione HTTP
-                        .deleteCookies("JSESSIONID") // Cancella i cookie di sessione
-                );
+        // http.authorizeHttpRequests(
+        // (authorizeHttpRequests) -> authorizeHttpRequests
+        // .requestMatchers("/pizzeria/create",
+        // "/pizzeria/edit/**").hasAuthority("ADMIN")
+        // .requestMatchers(HttpMethod.POST, "/pizzeria/**").hasAuthority("ADMIN")
+        // .requestMatchers("/ingredients", "/ingredients/**").hasAuthority("ADMIN")
+        // .requestMatchers("/pizzeria", "/pizzeria/**").hasAnyAuthority("ADMIN",
+        // "USER")
+        // .requestMatchers("/**").permitAll())
+        // .formLogin((formLogin) -> formLogin
+        // .usernameParameter("username")
+        // .passwordParameter("password")
+        // .loginPage("/pizzeria")
+        // .failureUrl("/authentication/login?failed")
+        // .loginProcessingUrl("/authentication/login/process"))
+        // .logout((logout) -> logout
+        // .logoutUrl("/authentication/logout")
+        // .logoutSuccessUrl("/") // URL di reindirizzamento dopo il logout
+        // .invalidateHttpSession(true) // Invalida la sessione HTTP
+        // .deleteCookies("JSESSIONID") // Cancella i cookie di sessione
+        // );
 
-        // http.authorizeHttpRequests()
-        // .requestMatchers("/user").hasAuthority("USER")
-        // .requestMatchers("/admin").hasAuthority("ADMIN")
-        // .requestMatchers("/").permitAll()
-        // .and().formLogin()
-        // .and().logout();
+        http.authorizeHttpRequests()
+                .requestMatchers("/pizzeria/create", "/pizzeria/edit/**").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/pizzeria/**").hasAuthority("ADMIN")
+                .requestMatchers("/ingredients", "/ingredients/**").hasAuthority("ADMIN")
+                .requestMatchers("/pizzeria", "/pizzeria/**").hasAnyAuthority("USER", "ADMIN")
+                .requestMatchers("/**").permitAll()
+                .and().formLogin()
+                .and().logout();
 
         return http.build();
     }
