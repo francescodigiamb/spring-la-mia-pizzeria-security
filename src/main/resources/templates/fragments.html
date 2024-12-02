@@ -30,7 +30,8 @@
 							Ingredients</a>
 					</li>
 					<li class="nav-item">
-						<a class="btn btn-success" th:href="@{/pizzeria/create}"><i class="fas fa-plus"></i>
+						<a class="btn btn-success" th:href="@{/pizzeria/create}"
+							sec:authorize="hasAuthority('ADMIN')"><i class="fas fa-plus"></i>
 							New
 							pizza</a>
 					</li>
@@ -42,6 +43,12 @@
 						<button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
 					</div>
 				</form>
+			</div>
+			<!-- Info Utente -->
+			<div>
+				Logged user: <span sec:authentication="name"></span>
+				Roles: <span sec:authentication="principal.authorities"></span>
+				<a class="btn btn-danger" href="/authentication/logout">Logout <i class="fas fa-sign-out"></i></a>
 			</div>
 		</div>
 	</nav>

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,7 +32,8 @@ public class ControllerPizzeria {
 	private IngredientRepository ingredientRepo;
 
 	@GetMapping
-	public String index(Model model, @RequestParam(name = "keyword", required = false) String keyword) {
+	public String index(Authentication authentication, Model model,
+			@RequestParam(name = "keyword", required = false) String keyword) {
 		List<Pizza> allPizzas;
 
 		if (keyword != null && !keyword.isBlank()) {
