@@ -43,7 +43,8 @@ public class SecurityConfiguration {
                 .requestMatchers("/pizzeria", "/pizzeria/**").hasAnyAuthority("USER", "ADMIN")
                 .requestMatchers("/**").permitAll()
                 .and().formLogin()
-                .and().logout();
+                .and().logout().and().exceptionHandling()
+                .and().csrf().disable();
 
         return http.build();
     }
